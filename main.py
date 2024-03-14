@@ -95,3 +95,44 @@ print("SVM Accuracy:", accuracy_score(y_test, y_pred_svm))
 print("Classification Report:\n", classification_report(y_test, y_pred_svm))
 print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred_svm))
 print("SVM Errors:", (y_pred_svm != y_test).sum())
+
+# Ensure that you have already installed pycaret before running this snippet.
+# If not, you can install it using pip in your environment.
+# !pip install pycaret
+
+# Import the classification module from pycaret
+from pycaret.classification import setup, compare_models, create_model, tune_model, predict_model
+
+# Load the dataset
+try:
+    df = pd.read_csv("creditcard.csv")
+except FileNotFoundError:
+    print("The file was not found. Please check the path and try again.")
+    # Add any additional error handling as necessary
+
+# Display the first few rows of the dataframe to ensure it's loaded correctly
+print(df.head())
+
+# Set up the environment in pycaret for classification
+# Specify the dataframe and the target column
+model_setup = setup(data=df, target='Class', silent=True, session_id=123)
+
+# Compare different models to find the best performing one
+best_model = compare_models()
+
+# Create a model based on Random Forest classifier
+random_forest = create_model('rf')
+
+# Display the Random Forest model
+print(random_forest)
+
+# Tune the Random Forest model to optimize its performance
+tuned_random_forest = tune_model(random_forest)
+
+# Display the tuned model's parameters
+print(tuned_random_forest)
+
+
+ perform predictions on the hold-out set
+pred_holdout = predict_model(tuned_random_forest, data=x_test)
+print(pred_holdout)

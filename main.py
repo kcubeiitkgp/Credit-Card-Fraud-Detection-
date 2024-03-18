@@ -120,18 +120,16 @@ model_setup = setup(data=df, target='Class', silent=True, session_id=123)
 # Compare different models to find the best performing one
 best_model = compare_models()
 
-# Create a model based on Random Forest classifier
-random_forest = create_model('rf')
+# Create an Isolation Forest model
+iso_forest_model = create_model('iforest')
 
-# Display the Random Forest model
-print(random_forest)
+print(iso_forest_model)
 
-# Tune the Random Forest model to optimize its performance
-tuned_random_forest = tune_model(random_forest)
+# Tune the Isolation Forest model
+tuned_iso_forest = tune_model(iso_forest_model, optimize='AUC')  # You can change 'AUC' to your preferred metric
 
-# Display the tuned model's parameters
-print(tuned_random_forest)
-
+# Display the tuned model
+print(tuned_iso_forest)
 
  perform predictions on the hold-out set
 pred_holdout = predict_model(tuned_random_forest, data=x_test)
